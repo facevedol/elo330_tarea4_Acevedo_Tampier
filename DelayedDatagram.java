@@ -4,11 +4,9 @@ import java.net.DatagramPacket;
 
 public class DelayedDatagram implements Delayed {
 	private byte[] buffer;
-	private DatagramPacket packet;
 	private long timeToSend;
-	public DelayedDatagram(DatagramPacket d, long tts){
-		this.buffer = d.getData();
-		this.packet = new DatagramPacket(this.buffer, this.buffer.length, d.getAddress(), d.getPort());
+	public DelayedDatagram(byte[] d, long tts){
+		this.buffer = d;
 		this.timeToSend = tts;
 	}
 
@@ -27,5 +25,9 @@ public class DelayedDatagram implements Delayed {
 	public long getDelay(TimeUnit unit) {
 		long delay = unit.convert((this.timeToSend - System.currentTimeMillis()), TimeUnit.MILLISECONDS);
 		return delay;
+	}
+
+	public byte[] getData() {
+		return this.buffer;
 	}
 }

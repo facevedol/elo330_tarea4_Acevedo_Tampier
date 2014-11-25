@@ -3,20 +3,22 @@ import java.io.IOException;
 import java.util.concurrent.DelayQueue;
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
+import java.net.InetAddress;
 import java.net.SocketException;
 
-public class DelayedUDPReceiver extends Thread {
+public class DelayedUDPSender extends Thread {
 	private DatagramSocket socket;
 	private byte[] buffer = new byte[1000];
 	private DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 	private DelayQueue<DelayedDatagram> queue;
-	private long delay; 
+	private InetAddress targetAddress;
 
-	public DelayedUDPReceiver(int port, long delay, DelayQueue<DelayedDatagram> queue) {
-		this.delay 	= delay;
+	public DelayedUDPSender(InetAddress addr, DelayQueue<DelayedDatagram> queue) {
 		this.queue 	= queue;
+		this.targetAddress = addr;
+		this.packet.setAddress(this.targetAddress);
 		try {
-			this.socket = new DatagramSocket(port);
+			this.socket = new DatagramSocket();
 		} catch(SocketException e) {
       		System.err.println("Can't open socket");
       		System.exit(1);
@@ -24,15 +26,18 @@ public class DelayedUDPReceiver extends Thread {
 	}
 
 	public void run() {
-		long timeToSend;
+		DelayedDatagram datagram;
 		while(true) {
 			try {
-				socket.receive(this.packet);
-				timeToSend = System.currentTimeMillis() + this.delay;
-				queue.put(new DelayedDatagram(this.packet.getData(), timeToSend));
+				datagram = queue.take();
+				this.packet.setData(datagram.getData());
+				socket.send(this.packet);
 			} catch(IOException e) {
 				System.err.println("Communication error");
 				e.printStackTrace();
+    		} catch(InterruptedException e) {
+    			System.err.println("Queue error");
+    			e.printStackTrace();
     		}
 		}
 	}
