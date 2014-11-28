@@ -14,8 +14,6 @@ public class DelayedUDPSender extends Thread {
 	private byte[] buffer = new byte[2048];
 	private DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 	private DelayQueue<DelayedDatagram> queue;
-	private InetAddress targetAddress;
-	private int port;
 
 
 	private MySocketAddress host;
