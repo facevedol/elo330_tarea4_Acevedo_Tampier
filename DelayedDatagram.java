@@ -2,12 +2,17 @@ import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 import java.net.DatagramPacket;
 
+
 public class DelayedDatagram implements Delayed {
+	
+	private int length;
 	private byte[] buffer;
 	private long timeToSend;
-	public DelayedDatagram(byte[] d, long tts){
+
+	public DelayedDatagram(byte[] d, long tts, int length){
 		this.buffer = d;
 		this.timeToSend = tts;
+		this.length = length;
 	}
 
 	@Override
@@ -30,4 +35,9 @@ public class DelayedDatagram implements Delayed {
 	public byte[] getData() {
 		return this.buffer;
 	}
+
+	public int getLength(){
+		return this.length;
+	}
+
 }
