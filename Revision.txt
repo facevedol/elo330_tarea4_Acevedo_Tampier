@@ -1,0 +1,22 @@
+Revisión del ayudante:
+Felipe Acevedo, Niklas Tampier
+
+Documentación (30%):				100
+Compilación (10%):					100
+Ejecución (60%):
+* Conexión Cliente-servidor (30%):	100
+* Implementación del retardo (15%):	70
+* Implementación del error (15%):	100
+-----------------------------
+Total:								
+
+MÉTODO DE PRUEBA
+* Se usó el programa de prueba que se encuentra en este repositorio:
+https://github.com/VirusRushTheater/erp_udp_prueba
+
+------------------------------------------------------------------------------
+Comentarios:
+* La conexión y el porcentaje de pérdidas funcionan de perlas con el programa de prueba.
+* Los retardos no logré hacerlos funcionar en el programa de prueba. Esta vez no estoy seguro si se trata de su código (el cual visiblemente funciona, al implementar la clase Delayed, o un bug de mi programa de prueba)
+
+Sugerencias:
